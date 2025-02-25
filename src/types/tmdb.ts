@@ -27,4 +27,4 @@ export interface MovieListResponse {
 export interface TMDBError {
     status_message: string;
     status_code: number;
-} 
+}
