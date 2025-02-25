@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import weatherRoutes from './routes/weatherRoutes';
+import movieRoutes from './routes/movieRoutes';
 
 dotenv.config();
 
@@ -17,6 +18,9 @@ app.get('/health', (req, res) => {
 
 // Weather routes
 app.use('/api', weatherRoutes);
+
+// Movie routes
+app.use('/api/movies', movieRoutes);
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
