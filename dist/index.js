@@ -1,30 +1,28 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import swaggerUi from 'swagger-ui-express';
-import movieRoutes from './routes/movieRoutes';
-import { specs } from './config/swagger';
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const movieRoutes_1 = __importDefault(require("./routes/movieRoutes"));
+const swagger_1 = require("./config/swagger");
 // Configuration des variables d'environnement
-dotenv.config();
-
-const app = express();
+dotenv_1.default.config();
+const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
-
 // Middleware pour parser le JSON
-app.use(express.json());
-
+app.use(express_1.default.json());
 // Logging des requêtes
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
     next();
 });
-
 // Documentation Swagger
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
-
+app.use('/api-docs', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_1.specs));
 // Routes
-app.use('/api/movies', movieRoutes);
-
+app.use('/api/movies', movieRoutes_1.default);
 // Route de statut pour le monitoring
 app.get('/status', (req, res) => {
     res.json({
@@ -33,7 +31,6 @@ app.get('/status', (req, res) => {
         uptime: process.uptime()
     });
 });
-
 // Gestion des erreurs 404
 app.use((req, res) => {
     console.error(`404 - Route non trouvée: ${req.method} ${req.url}`);
@@ -41,7 +38,6 @@ app.use((req, res) => {
         error: 'Route non trouvée'
     });
 });
-
 // Démarrage du serveur
 app.listen(port, () => {
     console.log(`🚀 Serveur démarré sur http://localhost:${port}`);
