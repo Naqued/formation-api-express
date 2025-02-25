@@ -1,4 +1,38 @@
 /**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Movie:
+ *       type: object
+ *       properties:
+ *         id:
+ *           type: integer
+ *           example: 550
+ *         title:
+ *           type: string
+ *           example: Fight Club
+ *         overview:
+ *           type: string
+ *           example: Un employé de bureau insomniaque...
+ *         poster_path:
+ *           type: string
+ *           nullable: true
+ *           example: "/path/to/poster.jpg"
+ *         release_date:
+ *           type: string
+ *           format: date
+ *           example: "1999-10-15"
+ *         vote_average:
+ *           type: number
+ *           format: float
+ *           example: 8.4
+ *         genre_ids:
+ *           type: array
+ *           items:
+ *             type: integer
+ *           example: [28, 18, 53]
+ */
+/**
  * Basic movie information returned by TMDB API
  */
 export interface Movie {

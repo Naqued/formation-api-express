@@ -12,6 +12,71 @@ const tmdbService = new TMDBService();
 const recommendationService = new RecommendationService(weatherService, tmdbService);
 
 /**
+ * @swagger
+ * tags:
+ *   name: Movies
+ *   description: API de recommandation de films basée sur la météo
+ */
+
+/**
+ * @swagger
+ * /api/movies/recommend:
+ *   get:
+ *     summary: Obtenir des recommandations de films selon la météo
+ *     description: Retourne une liste de films recommandés en fonction de la météo de la ville
+ *     tags: [Movies]
+ *     parameters:
+ *       - in: query
+ *         name: city
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Nom de la ville
+ *         example: Paris
+ *     responses:
+ *       200:
+ *         description: Recommandations de films
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 weather:
+ *                   type: string
+ *                   example: Clear
+ *                 mood:
+ *                   type: string
+ *                   example: énergique
+ *                 description:
+ *                   type: string
+ *                   example: Par beau temps, on se sent aventureux !
+ *                 movies:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Movie'
+ *       400:
+ *         description: Paramètres invalides
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 errors:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       message:
+ *                         type: string
+ *                       param:
+ *                         type: string
+ *                       value:
+ *                         type: string
+ *       500:
+ *         description: Erreur serveur
+ */
+
+/**
  * @route GET /api/movies/recommend
  * @desc Get movie recommendations based on weather in a city
  * @param {string} city - The city name to get weather-based recommendations
