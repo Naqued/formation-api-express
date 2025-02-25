@@ -1,47 +1,37 @@
 import { Router, Request, Response, RequestHandler } from 'express';
+import { WeatherService } from '../services/weatherService';
 import { TMDBService } from '../services/tmdbService';
+import { RecommendationService } from '../services/recommendationService';
 
 const router = Router();
+
+// Injection des dépendances
+const weatherService = new WeatherService();
 const tmdbService = new TMDBService();
+const recommendationService = new RecommendationService(weatherService, tmdbService);
 
-// Search movies
-router.get('/search', (async (req: Request, res: Response) => {
+/**
+ * @route GET /api/movies/recommend
+ * @desc Get movie recommendations based on weather in a city
+ * @param {string} city - The city name to get weather-based recommendations
+ * @returns {Object} Weather info, mood, description and recommended movies
+ */
+router.get('/recommend', (async (req: Request, res: Response) => {
     try {
-        const query = req.query.query as string;
-        const page = req.query.page ? parseInt(req.query.page as string) : 1;
-
-        if (!query) {
-            return res.status(400).json({ error: 'Query parameter is required' });
+        const city = req.query.city as string;
+        
+        if (!city) {
+            return res.status(400).json({
+                error: 'Le paramètre city est requis'
+            });
         }
 
-        const movies = await tmdbService.searchMovies(query, page);
-        res.json(movies);
+        const recommendation = await recommendationService.getRecommendationsByCity(city);
+        res.json(recommendation);
     } catch (error) {
-        res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
-    }
-}) as RequestHandler);
-
-// Get movies by genre
-router.get('/genre/:genreId', (async (req: Request, res: Response) => {
-    try {
-        const genreId = parseInt(req.params.genreId);
-        const page = req.query.page ? parseInt(req.query.page as string) : 1;
-
-        const movies = await tmdbService.getMoviesByGenre(genreId, page);
-        res.json(movies);
-    } catch (error) {
-        res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
-    }
-}) as RequestHandler);
-
-// Get movie details
-router.get('/:movieId', (async (req: Request, res: Response) => {
-    try {
-        const movieId = parseInt(req.params.movieId);
-        const movie = await tmdbService.getMovieDetails(movieId);
-        res.json(movie);
-    } catch (error) {
-        res.status(500).json({ error: error instanceof Error ? error.message : 'Unknown error' });
+        res.status(500).json({
+            error: error instanceof Error ? error.message : 'Erreur inconnue'
+        });
     }
 }) as RequestHandler);
 
