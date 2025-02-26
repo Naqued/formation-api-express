@@ -46,12 +46,15 @@ export class TMDBService {
      * @param page Page number (optional, defaults to 1)
      */
     async getMoviesByGenre(genreId: number, page: number = 1): Promise<MovieListResponse> {
+        // rand page number between 1 and 10
+        const randomPage = Math.floor(Math.random() * 10) + 1;
+
         try {
             const response = await axios.get<MovieListResponse>(`${this.baseUrl}/discover/movie`, {
                 params: {
                     api_key: this.apiKey,
                     with_genres: genreId,
-                    page,
+                    page: randomPage,
                     language: 'fr-FR',
                     sort_by: 'popularity.desc'
                 }
