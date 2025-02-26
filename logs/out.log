@@ -7,3 +7,18 @@
 2025-02-25 18:20:18: 2025-02-25T17:20:18.922Z - GET /favicon.ico
 2025-02-25 18:20:54: 2025-02-25T17:20:54.265Z - GET /api/movies/recommend?city=paris
 2025-02-25 18:20:54: 2025-02-25T17:20:54.628Z - GET /favicon.ico
+2025-02-25 18:29:06: 🚀 Serveur démarré sur http://localhost:3000
+2025-02-25 18:29:06: 📝 Documentation API : http://localhost:3000/api-docs
+2025-02-25 18:29:06: 📝 Routes disponibles :
+2025-02-25 18:29:06:    - GET /api/movies/recommend?city=<ville>
+2025-02-25 18:29:06:    - GET /status
+2025-02-25 18:29:13: 🚀 Serveur démarré sur http://localhost:3000
+2025-02-25 18:29:13: 📝 Documentation API : http://localhost:3000/api-docs
+2025-02-25 18:29:13: 📝 Routes disponibles :
+2025-02-25 18:29:13:    - GET /api/movies/recommend?city=<ville>
+2025-02-25 18:29:13:    - GET /status
+2025-02-25 18:29:36: 🚀 Serveur démarré sur http://localhost:3000
+2025-02-25 18:29:36: 📝 Documentation API : http://localhost:3000/api-docs
+2025-02-25 18:29:36: 📝 Routes disponibles :
+2025-02-25 18:29:36:    - GET /api/movies/recommend?city=<ville>
+2025-02-25 18:29:36:    - GET /status

@@ -3,12 +3,18 @@ import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import movieRoutes from './routes/movieRoutes';
 import { specs } from './config/swagger';
+import cors from 'cors';
 
 // Configuration des variables d'environnement
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Ajout de CORS (doit être avant les routes)
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
 
 // Middleware pour parser le JSON
 app.use(express.json());
