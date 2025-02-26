@@ -32,6 +32,22 @@
  *             type: integer
  *           example: [28, 18, 53]
  */
+
+export enum MovieGenres {
+    ACTION = 28,
+    ADVENTURE = 12,
+    ANIMATION = 16,
+    COMEDY = 35,
+    DRAMA = 18,
+    FANTASY = 14,
+    HORROR = 27,
+    ROMANCE = 10749,
+    THRILLER = 53,
+    SCIENCE_FICTION = 878,
+    MYSTERY = 9648,
+    FAMILY = 10751
+}
+
 /**
  * Basic movie information returned by TMDB API
  */

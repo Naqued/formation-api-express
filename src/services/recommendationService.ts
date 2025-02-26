@@ -1,6 +1,6 @@
 import { WeatherService } from './weatherService';
 import { TMDBService } from './tmdbService';
-import { weatherToGenreMap } from '../types/weatherGenreMapping';
+import { MoodService } from './moodService';
 import { MovieListResponse } from '../types/tmdb';
 
 interface MovieRecommendation {
@@ -11,10 +11,14 @@ interface MovieRecommendation {
 }
 
 export class RecommendationService {
+    private moodService: MoodService;
+
     constructor(
         private weatherService: WeatherService,
         private tmdbService: TMDBService
-    ) {}
+    ) {
+        this.moodService = new MoodService();
+    }
 
     async getRecommendationsByCity(city: string): Promise<MovieRecommendation> {
         try {
@@ -22,27 +26,21 @@ export class RecommendationService {
             const weather = await this.weatherService.getWeatherByCity(city);
             const weatherCondition = weather.weather[0].main;
 
-            // 2. Find corresponding genre mapping
-            const mapping = weatherToGenreMap.find(
-                m => m.weatherCode === weatherCondition
-            );
+            // 2. Get mood and genres for the weather
+            const weatherMood = this.moodService.getMoodForWeather(weatherCondition);
 
-            if (!mapping) {
-                throw new Error(`No recommendations available for weather: ${weatherCondition}`);
-            }
-
-            // 3. Get movie recommendations
+            // 3. Get movie recommendations based on primary genre
             const movies = await this.tmdbService.getMoviesByGenre(
-                mapping.genres[0], // Using primary genre
-                1 // First page
+                weatherMood.genres[0],
+                1
             );
 
             // 4. Return formatted response
             return {
                 weather: weatherCondition,
-                mood: mapping.mood,
-                description: mapping.description,
-                movies: movies.results.slice(0, 5) // Return top 5 movies
+                mood: weatherMood.mood,
+                description: weatherMood.description,
+                movies: movies.results.slice(0, 5)
             };
         } catch (error) {
             throw new Error(`Failed to get recommendations: ${error instanceof Error ? error.message : 'Unknown error'}`);
