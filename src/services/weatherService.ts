@@ -35,6 +35,7 @@ export class WeatherService {
             return response.data;
         } catch (error) {
             if (axios.isAxiosError(error)) {
+                console.error(error.response?.data);
                 throw new Error(`Weather API error: ${error.response?.data.message || error.message}`);
             }
             throw error;
